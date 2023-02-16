@@ -1,5 +1,5 @@
 import azure.cognitiveservices.speech as speechsdk
-
+ 
 Speech_key = "3b66785c9d73403b99708544933c45a2"
 Region = "southeastasia"
 Endpoint = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
