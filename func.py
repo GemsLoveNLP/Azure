@@ -60,9 +60,7 @@ def speak2(text):
      #speak but separate Thai and English
      phrase = sep(text)
      for part in phrase:
-        speech_config.speech_synthesis_voice_name = check(part)
-        speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
-        speech_synthesizer.speak_text_async(part).get()
+        speak(part)
 
 def speech_loop():
     #loop for speak()
@@ -81,3 +79,8 @@ def speech_loop2():
                 return 
         speak2(text)
     return
+
+def indianvoice(text):
+    speech_config.speech_synthesis_voice_name = Ind
+    speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+    speech_synthesizer.speak_text_async(text).get()
