@@ -64,7 +64,7 @@ def transform(text):
 def speech_loop():
     #loop for speak()
     while True:
-        text = input("Enter your text: ")
+        text = transform(input("Enter your text: "))
         if text == 'q': 
                 return 
         speak(text)
@@ -73,7 +73,7 @@ def speech_loop():
 def speech_loop2():
     #loop for speak2()
     while True:
-        text = input("Enter your text: ")
+        text = transform(input("Enter your text: "))
         if text == 'q': 
                 return 
         speak2(text)
