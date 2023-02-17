@@ -1,7 +1,9 @@
 from func import *
 
+indianvoice("Start")
+
 key = input()
-if key==1:
+if key=="1":
     speech_loop()
 else:
     speech_loop2()
