@@ -5,6 +5,7 @@ Region = "southeastasia"
 Endpoint = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
 Thai_set = {'ก', 'ข', 'ฃ', 'ค', 'ฅ', 'ฆ', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ', 'ฎ', 'ฏ', 'ฐ', 'ฑ', 'ฒ', 'ณ', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'น', 'บ', 'ป', 'ผ', 'ฝ', 'พ', 'ฟ', 'ภ', 'ม', 'ย', 'ร', 'ล', 'ว', 'ศ', 'ษ', 'ส', 'ห', 'ฬ', 'อ', 'ฮ'}
 Thai = "th-TH-NiwatNeural"
+# Thai = "th-TH-PremwadeeNeural"
 Eng = "en-US-AIGenerate1Neural"
 Ind = "en-IN-PrabhatNeural"
 
