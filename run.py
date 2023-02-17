@@ -1,9 +1,10 @@
 from func import *
 
-indianvoice("Start")
+indianvoice("the file is running")
 
-key = input()
-if key=="1":
-    speech_loop()
-else:
-    speech_loop2()
+if start() or True:
+    key = input("Enter 1 for speech and 2 for speech2: ")
+    if key=="1":
+        speech_loop()
+    else:
+        speech_loop2()

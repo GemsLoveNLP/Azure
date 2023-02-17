@@ -1,6 +1,6 @@
-from func import check
+from func import check, transform
 
-text = "hello world hi ui รน รยบ king oi น นย  สย po op บล"
+text = "hello \nworld hi ui รน \nรยบ\n king oi n\nน นย  สย po op บล "
 
 def joinlist(l,start,stop):
     return " ".join(l[start+1:stop+1])
@@ -23,5 +23,4 @@ def sep(text):
         
     return out
 
-print(sep(text))
-
+print(transform(text))

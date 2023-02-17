@@ -10,18 +10,6 @@ Ind = "en-IN-PrabhatNeural"
 
 speech_config = speechsdk.SpeechConfig(subscription=Speech_key, region =Region)
 speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)
-speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
-
-
-def start():
-    print("The hearing starts NOW!!!")
-
-def repeat():
-    result = speech_recognizer.recognize_once()
-    if result.reason == speechsdk.ResultReason.RecognizedSpeech:
-        text_string = (f'"{result.text}"')
-        speech_synthesizer.speak_text_async(result.text)
-        return text_string
 
 def check(text):
     if set(text).intersection(Thai_set) == set():
@@ -34,6 +22,14 @@ def speak(text):
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
     speech_synthesizer.speak_text_async(text).get()
 
+def start():
+    result = speech_recognizer.recognize_once()
+    print(result.text)
+    if "start" in result.text.lower():
+        speak("The app is starting")
+        return True
+    return False
+    
 def joinlist(l,start,stop):
     #join the list pieces from start+1 to stop+1
     return " ".join(l[start+1:stop+1])
@@ -62,10 +58,13 @@ def speak2(text):
      for part in phrase:
         speak(part)
 
+def transform(text):
+    return text.strip().replace("\n"," ")
+
 def speech_loop():
     #loop for speak()
     while True:
-        text = input()
+        text = input("Enter your text: ")
         if text == 'q': 
                 return 
         speak(text)
@@ -74,7 +73,7 @@ def speech_loop():
 def speech_loop2():
     #loop for speak2()
     while True:
-        text = input()
+        text = input("Enter your text: ")
         if text == 'q': 
                 return 
         speak2(text)
