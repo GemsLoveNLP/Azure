@@ -1,8 +1,11 @@
 import azure.cognitiveservices.speech as speechsdk
+import requests, uuid, json
  
 Speech_key = "3b66785c9d73403b99708544933c45a2"
 Region = "southeastasia"
 Endpoint = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
+Translate_key = "ca0e0d8f2c774ba5abfeeb1a7d0b5397"
+endpoint = "https://api.cognitive.microsofttranslator.com"
 Thai_set = {'ก', 'ข', 'ฃ', 'ค', 'ฅ', 'ฆ', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ', 'ฎ', 'ฏ', 'ฐ', 'ฑ', 'ฒ', 'ณ', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'น', 'บ', 'ป', 'ผ', 'ฝ', 'พ', 'ฟ', 'ภ', 'ม', 'ย', 'ร', 'ล', 'ว', 'ศ', 'ษ', 'ส', 'ห', 'ฬ', 'อ', 'ฮ'}
 Thai = "th-TH-NiwatNeural"
 # Thai = "th-TH-PremwadeeNeural"
@@ -84,3 +87,33 @@ def indianvoice(text):
     speech_config.speech_synthesis_voice_name = Ind
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
     speech_synthesizer.speak_text_async(text).get()
+
+def translate(text):
+    path = '/translate'
+    constructed_url = endpoint + path
+
+    params = {
+        'api-version': '3.0',
+        'from': 'en',
+        'to': ['th']
+    }
+
+    headers = {
+        'Ocp-Apim-Subscription-Key': Translate_key,
+        # location required if you're using a multi-service or regional (not global) resource.
+        'Ocp-Apim-Subscription-Region': Region,
+        'Content-type': 'application/json',
+        'X-ClientTraceId': str(uuid.uuid4())
+    }
+
+    # You can pass more than one object in body.
+    body = [{
+        'text': text
+    }]
+
+    request = requests.post(constructed_url, params=params, headers=headers, json=body)
+    response = request.json()
+
+    print(response[0]['translations'][0]['text'])
+
+translate('Sultan')
