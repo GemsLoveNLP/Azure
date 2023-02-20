@@ -1,20 +1,29 @@
 import azure.cognitiveservices.speech as speechsdk
 import requests, uuid, json
- 
-Speech_key = "3b66785c9d73403b99708544933c45a2"
+
+#Region
 Region = "southeastasia"
+
+#speech
+Speech_key = "3b66785c9d73403b99708544933c45a2"
 Endpoint = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
+
+#translate
 Translate_key = "ca0e0d8f2c774ba5abfeeb1a7d0b5397"
 endpoint = "https://api.cognitive.microsofttranslator.com"
+
+#utility
 Thai_set = {'ก', 'ข', 'ฃ', 'ค', 'ฅ', 'ฆ', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ', 'ฎ', 'ฏ', 'ฐ', 'ฑ', 'ฒ', 'ณ', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'น', 'บ', 'ป', 'ผ', 'ฝ', 'พ', 'ฟ', 'ภ', 'ม', 'ย', 'ร', 'ล', 'ว', 'ศ', 'ษ', 'ส', 'ห', 'ฬ', 'อ', 'ฮ'}
 Thai = "th-TH-NiwatNeural"
 # Thai = "th-TH-PremwadeeNeural"
 Eng = "en-US-AIGenerate1Neural"
 Ind = "en-IN-PrabhatNeural"
 
+#config
 speech_config = speechsdk.SpeechConfig(subscription=Speech_key, region =Region)
 speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)
 
+#functions
 def check(text):
     if set(text).intersection(Thai_set) == set():
          return Eng
@@ -53,35 +62,25 @@ def sep(text):
     #form the pieces
     for i in range(len(order)-1):
         obj = joinlist(phrase,order[i],order[i+1])
-        out.append(obj)    
+        out.append((obj,check(obj)))    
     return out
 
 def speak2(text):
      #speak but separate Thai and English
      phrase = sep(text)
-     for part in phrase:
+     for part, lang in phrase:
         speak(part)
 
 def transform(text):
     return text.strip().replace("\n"," ")
 
 def speech_loop():
-    #loop for speak()
-    while True:
-        text = transform(input("Enter your text: "))
-        if text == 'q': 
-                return 
-        speak(text)
-    return
-
-def speech_loop2():
     #loop for speak2()
     while True:
-        text = transform(input("Enter your text: "))
+        text = transform(input("Enter text to read: "))
         if text == 'q': 
                 return 
         speak2(text)
-    return
 
 def indianvoice(text):
     speech_config.speech_synthesis_voice_name = Ind
@@ -92,28 +91,29 @@ def translate(text):
     path = '/translate'
     constructed_url = endpoint + path
 
-    params = {
-        'api-version': '3.0',
-        'from': 'en',
-        'to': ['th']
-    }
+    params = { 'api-version': '3.0', 'from': 'en', 'to': ['th'] }
 
-    headers = {
-        'Ocp-Apim-Subscription-Key': Translate_key,
-        # location required if you're using a multi-service or regional (not global) resource.
-        'Ocp-Apim-Subscription-Region': Region,
-        'Content-type': 'application/json',
-        'X-ClientTraceId': str(uuid.uuid4())
-    }
+    headers = {'Ocp-Apim-Subscription-Key': Translate_key, 'Ocp-Apim-Subscription-Region': Region, 'Content-type': 'application/json', 'X-ClientTraceId': str(uuid.uuid4())}
 
-    # You can pass more than one object in body.
-    body = [{
-        'text': text
-    }]
+    body = [{ 'text': text }]
 
     request = requests.post(constructed_url, params=params, headers=headers, json=body)
     response = request.json()
+    translated_text = response[0]['translations'][0]['text']
+    return translated_text
 
-    print(response[0]['translations'][0]['text'])
+def translate2(text):
+    phrase = sep(text)
+    for part, lang in phrase:
+        if lang == Eng:
+            speak(translate(part))
+        else:
+            speak(part)
 
-translate('Sultan')
+def translate_loop():
+    #loop for speak2()
+    while True:
+        text = transform(input("Enter text to translate: "))
+        if text == 'q': 
+                return 
+        translate2(text)
