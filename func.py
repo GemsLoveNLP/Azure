@@ -40,14 +40,16 @@ def recog():
     text = result.text.lower()
     return text
 
+def speak_print(text):
+    speak(text)
+    print(text)
+
 def mode_selection():
-    speak("Select your mode")
-    print("Select your mode")
+    speak_print("Select your mode")
     text = recog()
     print(f"Your respond: {text}")
     if "1" in text or "one" in text:
-        speak("You want to use mode one reading right?")
-        print("You want to use mode one reading right?")
+        speak_print("You want to use mode one reading right?")
         ans = recog()
         print(f"Your respond: {ans}")
         if "yes" in ans or "yeah" in ans:
@@ -56,28 +58,26 @@ def mode_selection():
         else:
             mode_selection()
     elif "2" in text or "two" in text:
-        speak("You want to use mode two translating right?")
-        print("You want to use mode two translating right?")
+        speak_print("You want to use mode two translating right?")
         ans = recog()
         print(f"Your respond: {ans}")
         if "yes" in ans or "yeah" in ans:
-            print("Mode 2: translating has been selected")
+            speak_print("Mode 2: translating has been selected")
             return 2
         else:
             mode_selection()
     elif "3" in text or "three" in text:
-        speak("You want to use mode three identifying right?")
-        print("You want to use mode three identifying right?")
+        speak_print("You want to use mode three identifying right?")
         ans = recog()
         print(f"Your respond: {ans}")
         if "yes" in ans or "yeah" in ans:
-            print("Mode 3: indentifying has been selected")
+            speak_print("Mode 3: indentifying has been selected")
             return 3
         else:
             mode_selection()
     else:
-        speak("No mode has been selected")
-        print("No mode has been selected")
+        speak_print("No mode has been selected")
+
     
 def joinlist(l,start,stop):
     #join the list pieces from start+1 to stop+1
