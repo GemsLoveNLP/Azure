@@ -1,7 +1,8 @@
 from func import *
 
-indianvoice("the file is running")
+speak("the file is running")
 
-# speech_loop()
+mode = mode_selection()
+print(mode)
 
-translate_loop()
+# translate_loop()

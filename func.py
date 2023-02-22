@@ -35,13 +35,49 @@ def speak(text):
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
     speech_synthesizer.speak_text_async(text).get()
 
-def start():
+def recog():
     result = speech_recognizer.recognize_once()
-    print(result.text)
-    if "start" in result.text.lower():
-        speak("The app is starting")
-        return True
-    return False
+    text = result.text.lower()
+    return text
+
+def mode_selection():
+    speak("Select your mode")
+    print("Select your mode")
+    text = recog()
+    print(f"Your respond: {text}")
+    if "1" in text or "one" in text:
+        speak("You want to use mode one reading right?")
+        print("You want to use mode one reading right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans:
+            print("Mode 1: reading has been selected")
+            return 1
+        else:
+            mode_selection()
+    elif "2" in text or "two" in text:
+        speak("You want to use mode two translating right?")
+        print("You want to use mode two translating right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans:
+            print("Mode 2: translating has been selected")
+            return 2
+        else:
+            mode_selection()
+    elif "3" in text or "three" in text:
+        speak("You want to use mode three identifying right?")
+        print("You want to use mode three identifying right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans:
+            print("Mode 3: indentifying has been selected")
+            return 3
+        else:
+            mode_selection()
+    else:
+        speak("No mode has been selected")
+        print("No mode has been selected")
     
 def joinlist(l,start,stop):
     #join the list pieces from start+1 to stop+1
