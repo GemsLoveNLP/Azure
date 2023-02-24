@@ -1,6 +1,6 @@
 from func import *
 
-speak("the file is running")
+speak_print("the file is running")
 
 mode = mode_selection()
 print(mode)
