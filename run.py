@@ -1,10 +1,18 @@
 from func import *
 
-speak_print("the file is running")
+# speak_print("the file is running")
 
-mode = mode_selection()
+mode = mode_selection_Thai()
 print(mode)
 
 # speech_loop()
 
 # translate_loop()
+
+# print(translate("สวัสดี cat dog ว่ายังไง", mode=1))
+
+# print(recog_Thai())
+
+# translate_from_speech_loop()
+
+    

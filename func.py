@@ -22,9 +22,10 @@ Ind = "en-IN-PrabhatNeural"
 #config
 speech_config = speechsdk.SpeechConfig(subscription=Speech_key, region =Region)
 speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)
+source_language_config = speechsdk.languageconfig.SourceLanguageConfig("th-TH")
 
-#functions
-# --------------------------------------------------------------------
+# ? -------------------------------------------------------------------------------------------
+# ? functions
 
 # check if there are any Thai in the text
 def check(text):
@@ -45,46 +46,20 @@ def recog():
     text = result.text.lower()
     return text
 
+# listen to the user and return what they speak in thai
+def recog_Thai():
+    speech_recognizer_th = speechsdk.SpeechRecognizer(speech_config=speech_config, source_language_config=source_language_config)
+    result = speech_recognizer_th.recognize_once()
+    text = result.text.lower()
+    return text
+
 # speak and print out the text
 def speak_print(text):
     speak(text)
     print(text)
 
-# select the mode the user want to use
-# NEEDED FOR ACTUAL PROJECT $
-def mode_selection():
-    speak_print("Select your mode")
-    text = recog()
-    print(f"Your respond: {text}")
-    if "1" in text or "one" in text:
-        speak_print("You want to use mode one reading right?")
-        ans = recog()
-        print(f"Your respond: {ans}")
-        if "yes" in ans or "yeah" in ans or "exactly" in ans:
-            print("Mode 1: reading has been selected")
-            return 1
-        else:
-            mode_selection()
-    elif "2" in text or "two" in text:
-        speak_print("You want to use mode two translating right?")
-        ans = recog()
-        print(f"Your respond: {ans}")
-        if "yes" in ans or "yeah" in ans or "exactly" in ans:
-            speak_print("Mode 2: translating has been selected")
-            return 2
-        else:
-            mode_selection()
-    elif "3" in text or "three" in text:
-        speak_print("You want to use mode three identifying right?")
-        ans = recog()
-        print(f"Your respond: {ans}")
-        if "yes" in ans or "yeah" in ans or "exactly" in ans:
-            speak_print("Mode 3: indentifying has been selected")
-            return 3
-        else:
-            mode_selection()
-    else:
-        speak_print("No mode has been selected")
+def onlyfan():
+    speak_print("OnlyFan has been activated")
 
 # join the list items together from start+1, stop+1
 # list must only contains strings
@@ -137,11 +112,19 @@ def indianvoice(text):
     speech_synthesizer.speak_text_async(text).get()
 
 # translate the given text
-def translate(text):
+def translate(text, mode=0):
+
+    fr = 'th'
+    to = 'en'
+
+    if mode == 0:
+        fr = 'en'
+        to = 'th'
+        
     path = '/translate'
     constructed_url = endpoint + path
 
-    params = { 'api-version': '3.0', 'from': 'en', 'to': ['th'] }
+    params = { 'api-version': '3.0', 'from': fr, 'to': [to] }
 
     headers = {'Ocp-Apim-Subscription-Key': Translate_key, 'Ocp-Apim-Subscription-Region': Region, 'Content-type': 'application/json', 'X-ClientTraceId': str(uuid.uuid4())}
 
@@ -152,8 +135,8 @@ def translate(text):
     translated_text = response[0]['translations'][0]['text']
     return translated_text
 
-# transalte the given mixed language text
-def translate2(text):
+# transalte the given mixed language text to Thai
+def translate2Thai(text):
     phrase = sep(text)
     for part, lang in phrase:
         if lang == Eng:
@@ -168,4 +151,119 @@ def translate_loop():
         text = transform(input("Enter text to translate: "))
         if text == 'q': 
                 return 
-        translate2(text)
+        translate2Thai(text)
+
+def in_thai(key, text):
+    return
+
+# ? -----------------------------------------------------------------------------------------------------------------------------------
+# ! Real project functions underneath
+
+# ! NEEDED FOR THE ACTUAL PROJECT 
+def translate_from_speech_loop(escape='เลิกทำ'):
+    speak_print("เริ่มพูดหลังจบเสียงสัญญาณ")
+    while True:
+        text = recog_Thai()
+        if escape in text:
+            speak_print("ปิดการใช้งานโปรแกรม")
+            break
+        print(text)
+        translated = translate(text, mode=1)
+        speak_print(translated)
+
+# select the mode the user want to use
+# ! NEEDED FOR THE ACTUAL PROJECT 
+def mode_selection():
+    speak_print("Select your mode")
+    text = recog()
+    print(f"Your respond: {text}")
+    if "1" in text or "one" in text:
+        speak_print("You want to use mode one reading right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans or "exactly" in ans:
+            print("Mode 1: reading has been selected")
+            return 1
+        else:
+            mode_selection()
+    elif "2" in text or "two" in text:
+        speak_print("You want to use mode two translating right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans or "exactly" in ans:
+            speak_print("Mode 2: translating has been selected")
+            return 2
+        else:
+            mode_selection()
+    elif "3" in text or "three" in text:
+        speak_print("You want to use mode three identifying right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans or "exactly" in ans:
+            speak_print("Mode 3: indentifying has been selected")
+            return 3
+        else:
+            mode_selection()
+    elif "4" in text or "four" in text:
+        speak_print("You want to use mode four translating from voice right?")
+        ans = recog()
+        print(f"Your respond: {ans}")
+        if "yes" in ans or "yeah" in ans or "exactly" in ans:
+            speak_print("Mode 4: translating from voice has been selected")
+            translate_from_speech_loop()
+            return 4
+        else:
+            mode_selection()
+    elif "only fan" in text or "turn on" in text:
+        onlyfan()
+    else:
+        speak_print("No mode has been selected")
+
+
+# select the mode the user want to use
+# ! NEEDED FOR THE ACTUAL PROJECT 
+def mode_selection_Thai():
+    speak_print("เลือกโหมดที่ต้องการ")
+    text = recog_Thai()
+    print(f"Your respond: {text}")
+    if "1" in text or "หนึ่ง" in text:
+        speak_print("คุณต้องการเปิดใช้งานโหมดที่หนึ่ง อ่านหนังสือ ใช่หรือไม่")
+        ans = recog_Thai()
+        print(f"Your respond: {ans}")
+        if "ใช่" in ans or "ค่ะ" in ans or "ครับ" in ans or "เยส" in ans:
+            speak_print("โหมดที่หนึ่ง อ่านหนังสือ")
+            return 1
+        else:
+            mode_selection_Thai()
+    elif "2" in text or "สอง" in text:
+        speak_print("คุณต้องการเปิดใช้งานโหมดที่สอง อ่านและแปลภาษา ใช่หรือไม่") #You want to use mode two translating right?
+        ans = recog_Thai()
+        print(f"Your respond: {ans}")
+        if "ใช่" in ans or "ค่ะ" in ans or "ครับ" in ans or "เยส" in ans:
+            speak_print("โหมดที่สอง อ่านและแปลภาษา") #Mode 2: translating has been selected 
+            return 2
+        else:
+            mode_selection_Thai()
+    elif "3" in text or "สาม" in text:
+        speak_print("คุณต้องการเปิดใช้งานโหมดที่สาม หาวัตถุ ใช่หรือไม่") #You want to use mode three identifying right?
+        ans = recog_Thai()
+        print(f"Your respond: {ans}")
+        if "ใช่" in ans or "ค่ะ" in ans or "ครับ" in ans or "เยส" in ans:
+            speak_print("โหมดที่สาม หาวัตถุ") #Mode 3: indentifying has been selected
+            return 3
+        else:
+            mode_selection_Thai()
+    elif "4" in text or "สี่" in text:
+        speak_print("คุณต้องการเปิดใช้งานโหมดที่สี่ แปลภาษาจากเสียง ใช่หรือไม่") #You want to use mode four translating from voice right?
+        ans = recog_Thai()
+        print(f"Your respond: {ans}")
+        if "ใช่" in ans or "ค่ะ" in ans or "ครับ" in ans or "เยส" in ans:
+            speak_print("โหมดที่สี่ แปลภาษาจากเสียง") #Mode 4: translating from voice has been selected
+            translate_from_speech_loop()
+            return 4
+        else:
+            mode_selection_Thai()
+    elif "only fan" in text or "turn on" in text:
+        onlyfan()
+    else:
+        speak_print("ไม่มีโหมดที่เปิดใช้งาน ณ ขณะนี้") #No mode has been selected
