@@ -1,4 +1,4 @@
-from func import *
+from nlp import *
 
 # speak_print("the file is running")
 
@@ -14,5 +14,3 @@ print(mode)
 # print(recog_Thai())
 
 # translate_from_speech_loop()
-
-    
