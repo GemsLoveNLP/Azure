@@ -161,7 +161,7 @@ def in_thai(key, text):
 
 # ! NEEDED FOR THE ACTUAL PROJECT 
 def translate_from_speech_loop(escape='เลิกทำ'):
-    speak_print("เริ่มพูดหลังจบเสียงสัญญาณ")
+    speak_print("ให้พูดว่า เลิกทำ เพื่อปิดการใช้งานโหมดที่สี่ เริ่มพูดหลังจบเสียงสัญญาณ")
     while True:
         text = recog_Thai()
         if escape in text:
@@ -222,8 +222,9 @@ def mode_selection():
 
 # select the mode the user want to use
 # ! NEEDED FOR THE ACTUAL PROJECT 
-def mode_selection_Thai():
-    speak_print("เลือกโหมดที่ต้องการ")
+def mode_selection_Thai(mode=True):
+    if mode:
+        speak_print("เลือกโหมดที่ต้องการ หากต้องการรายชื่อโหมดพูดศูนย์")
     text = recog_Thai()
     print(f"Your respond: {text}")
     if "1" in text or "หนึ่ง" in text:
@@ -263,6 +264,14 @@ def mode_selection_Thai():
             return 4
         else:
             mode_selection_Thai()
+    elif "0" in text or "ศูนย์" in text:
+        speak_print("""
+        พูด หนึ่ง เพื่อ ใช้งานโหมดที่หนึ่ง อ่านหนังสือ
+        พูด สอง เพื่อ ใช้งานโหมดที่สอง อ่านและแปลภาษา
+        พูด สาม เพื่อ ใช้งานโหมดที่สาม หาวัตถุ
+        และ พูด สี่ เพื่อ ใช้งานโหมดที่สี่ แปลภาษาจากเสียง
+        """)
+        mode_selection_Thai(mode=False)
     elif "only fan" in text or "turn on" in text:
         onlyfan()
     else:
