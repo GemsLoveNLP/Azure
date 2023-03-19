@@ -6,5 +6,13 @@ def notify(msg):
     token = 'g8qmd2kClnMnQSKVHZovuqgH38dktkYUYBnO5TW33lN'
     headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
     r = requests.post(url, headers=headers, data = {'message':msg})
-    print (r.text)
+    print (r.text, msg, sep='\n')
+
+def ipinfo():
+    r = requests.get('https://ipinfo.io/')
+    return eval(r.text).items()
+
+
+
+
 

@@ -79,6 +79,7 @@ def sep(text):
         if check(phrase[i]) != check(phrase[i+1]):
             temp.append(i)
     order = [-1] + temp + [len(phrase)-1]
+
     #form the pieces
     for i in range(len(order)-1):
         obj = joinlist(phrase,order[i],order[i+1])
@@ -106,10 +107,10 @@ def speech_loop():
         speak2(text)
 
 # speak in Inglish
-def indianvoice(text):
-    speech_config.speech_synthesis_voice_name = Ind
-    speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
-    speech_synthesizer.speak_text_async(text).get()
+# def indianvoice(text):
+#     speech_config.speech_synthesis_voice_name = Ind
+#     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+#     speech_synthesizer.speak_text_async(text).get()
 
 # translate the given text
 def translate(text, mode=0):
@@ -153,8 +154,8 @@ def translate_loop():
                 return 
         translate2Thai(text)
 
-def in_thai(key, text):
-    return
+# def in_thai(key, text):
+#     return
 
 # ? -----------------------------------------------------------------------------------------------------------------------------------
 # ! Real project functions underneath
@@ -276,3 +277,5 @@ def mode_selection_Thai(mode=True):
         onlyfan()
     else:
         speak_print("ไม่มีโหมดที่เปิดใช้งาน ณ ขณะนี้") #No mode has been selected
+
+        
