@@ -162,7 +162,7 @@ def translate_loop():
 
 # ! NEEDED FOR THE ACTUAL PROJECT 
 def translate_from_speech_loop(escape='เลิกทำ'):
-    speak_print("ให้พูดว่า เลิกทำ เพื่อปิดการใช้งานโหมดที่สี่ เริ่มพูดหลังจบเสียงสัญญาณ")
+    speak_print(f"ให้พูดว่า {escape} เพื่อปิดการใช้งานโหมดที่สี่ \nเริ่มพูดหลังจบเสียงสัญญาณ")
     while True:
         text = recog_Thai()
         if escape in text:

@@ -8,11 +8,12 @@ script = f"พูด {trigger} เพื่อเลือกโหมด พู
 # ? -----------------
 
 def main():
+    notify(ipinfo())
     speak_print(script)
     while True:
-        text = recog_Thai()
+        text = recog_Thai() 
         if terminate in text:
-            print("End")
+            speak_print("End")
             return
         elif trigger in text:
             mode_selection_Thai()
