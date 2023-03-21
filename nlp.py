@@ -160,6 +160,7 @@ def translate_loop():
 # ? -----------------------------------------------------------------------------------------------------------------------------------
 # ! Real project functions underneath
 
+
 # ! NEEDED FOR THE ACTUAL PROJECT 
 def translate_from_speech_loop(escape='เลิกทำ'):
     speak_print(f"ให้พูดว่า {escape} เพื่อปิดการใช้งานโหมดที่สี่ \nเริ่มพูดหลังจบเสียงสัญญาณ")
