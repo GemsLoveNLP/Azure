@@ -5,11 +5,11 @@ import requests, uuid, json
 Region = "southeastasia"
 
 #speech
-Speech_key = "3b66785c9d73403b99708544933c45a2"
+Speech_key = "add your speech key here"
 Endpoint = "https://southeastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
 
 #translate
-Translate_key = "ca0e0d8f2c774ba5abfeeb1a7d0b5397"
+Translate_key = "add your translate key here"
 endpoint = "https://api.cognitive.microsofttranslator.com"
 
 #utility
